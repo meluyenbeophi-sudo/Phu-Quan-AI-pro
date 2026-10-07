@@ -1,0 +1,1103 @@
+```html
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Phu Quan AI</title>
+
+<style>
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --bg: #ffffff;
+    --sidebar: #f7f7f8;
+    --text: #202123;
+    --muted: #777;
+    --border: #e5e5e5;
+    --hover: #ececec;
+    --input: #ffffff;
+    --purple: #7c3aed;
+}
+
+body.dark {
+    --bg: #212121;
+    --sidebar: #171717;
+    --text: #eeeeee;
+    --muted: #aaa;
+    --border: #3b3b3b;
+    --hover: #303030;
+    --input: #2d2d2d;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    height: 100vh;
+    overflow: hidden;
+}
+
+
+/* SIDEBAR */
+
+.sidebar {
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 260px;
+    height: 100vh;
+    background: var(--sidebar);
+    border-right: 1px solid var(--border);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 19px;
+    font-weight: bold;
+    padding: 12px;
+}
+
+.logoIcon {
+    width: 36px;
+    height: 36px;
+    border-radius: 11px;
+    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.newChat {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text);
+    cursor: pointer;
+    margin: 10px 0;
+}
+
+.newChat:hover {
+    background: var(--hover);
+}
+
+.historyTitle {
+    color: var(--muted);
+    font-size: 12px;
+    padding: 10px;
+}
+
+.history {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.chatItem {
+    padding: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.chatItem:hover {
+    background: var(--hover);
+}
+
+.bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 8px;
+}
+
+.menu {
+    width: 100%;
+    padding: 11px;
+    border: none;
+    background: transparent;
+    color: var(--text);
+    text-align: left;
+    cursor: pointer;
+    border-radius: 8px;
+}
+
+.menu:hover {
+    background: var(--hover);
+}
+
+
+/* MAIN */
+
+.main {
+    margin-left: 260px;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.topbar {
+    height: 60px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    padding: 0 22px;
+}
+
+.mobile {
+    display: none;
+}
+
+
+/* CHAT */
+
+.chat {
+    flex: 1;
+    overflow-y: auto;
+    padding-bottom: 150px;
+}
+
+.welcome {
+    text-align: center;
+    margin-top: 110px;
+}
+
+.bigLogo {
+    width: 70px;
+    height: 70px;
+    margin: auto;
+    border-radius: 20px;
+    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    color: white;
+    font-size: 28px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome h1 {
+    margin-top: 20px;
+    font-size: 31px;
+}
+
+.welcome p {
+    color: var(--muted);
+    margin-top: 10px;
+}
+
+.messages {
+    width: 100%;
+}
+
+.message {
+    padding: 24px 20px;
+}
+
+.message.ai {
+    background: var(--sidebar);
+}
+
+.messageInner {
+    max-width: 820px;
+    margin: auto;
+    display: flex;
+    gap: 14px;
+}
+
+.avatar {
+    width: 34px;
+    height: 34px;
+    min-width: 34px;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.userAvatar {
+    background: #555;
+    color: white;
+}
+
+.aiAvatar {
+    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    color: white;
+}
+
+.content {
+    flex: 1;
+    line-height: 1.6;
+    font-size: 15px;
+}
+
+.content img {
+    max-width: 100%;
+    border-radius: 14px;
+    margin-top: 12px;
+    display: block;
+}
+
+.download {
+    display: inline-block;
+    margin-top: 10px;
+    background: var(--purple);
+    color: white;
+    text-decoration: none;
+    padding: 9px 13px;
+    border-radius: 8px;
+}
+
+
+/* INPUT */
+
+.inputArea {
+    position: fixed;
+    left: 260px;
+    right: 0;
+    bottom: 0;
+    padding: 20px;
+    background: linear-gradient(
+        transparent,
+        var(--bg) 35%
+    );
+}
+
+.inputBox {
+    max-width: 820px;
+    margin: auto;
+    position: relative;
+}
+
+textarea {
+    width: 100%;
+    min-height: 60px;
+    max-height: 180px;
+    resize: none;
+    border: 1px solid var(--border);
+    border-radius: 15px;
+    background: var(--input);
+    color: var(--text);
+    padding: 17px 110px 17px 17px;
+    font-family: inherit;
+    font-size: 15px;
+    outline: none;
+}
+
+.buttons {
+    position: absolute;
+    right: 9px;
+    bottom: 10px;
+    display: flex;
+    gap: 6px;
+}
+
+.btn {
+    width: 39px;
+    height: 39px;
+    border: none;
+    border-radius: 9px;
+    cursor: pointer;
+    background: var(--hover);
+    color: var(--text);
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+}
+
+.generate {
+    background: linear-gradient(135deg,#7c3aed,#a855f7);
+    color: white;
+}
+
+.send {
+    background: #222;
+    color: white;
+}
+
+body.dark .send {
+    background: white;
+    color: #111;
+}
+
+.disclaimer {
+    text-align: center;
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 8px;
+}
+
+
+/* LOADING */
+
+.loading {
+    display: flex;
+    gap: 5px;
+    align-items: center;
+}
+
+.dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--muted);
+    animation: pulse 1s infinite;
+}
+
+.dot:nth-child(2) {
+    animation-delay: .15s;
+}
+
+.dot:nth-child(3) {
+    animation-delay: .3s;
+}
+
+@keyframes pulse {
+    0%,100% {
+        opacity: .25;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+/* MOBILE */
+
+@media(max-width:750px) {
+
+    .sidebar {
+        transform: translateX(-100%);
+        transition: .25s;
+        z-index: 50;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .main {
+        margin-left: 0;
+    }
+
+    .inputArea {
+        left: 0;
+    }
+
+    .mobile {
+        display: block;
+        border: none;
+        background: transparent;
+        color: var(--text);
+        font-size: 22px;
+        margin-right: 15px;
+        cursor: pointer;
+    }
+}
+</style>
+</head>
+
+
+<body>
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar" id="sidebar">
+
+    <div class="logo">
+        <div class="logoIcon">PQ</div>
+        Phu Quan AI
+    </div>
+
+    <button class="newChat" onclick="newChat()">
+        ＋ New chat
+    </button>
+
+    <div class="historyTitle">
+        Lịch sử
+    </div>
+
+    <div class="history" id="history"></div>
+
+    <div class="bottom">
+
+        <button class="menu" onclick="toggleDark()">
+            ◐ Đổi giao diện
+        </button>
+
+        <button class="menu" onclick="about()">
+            ⓘ Về Phu Quan AI
+        </button>
+
+    </div>
+
+</aside>
+
+
+<!-- MAIN -->
+
+<main class="main">
+
+    <header class="topbar">
+
+        <button class="mobile" onclick="toggleSidebar()">
+            ☰
+        </button>
+
+        <b>Phu Quan AI</b>
+
+    </header>
+
+
+    <section class="chat" id="chat">
+
+        <div class="welcome" id="welcome">
+
+            <div class="bigLogo">
+                PQ
+            </div>
+
+            <h1>Phu Quan AI</h1>
+
+            <p>
+                Bạn muốn hỏi gì hoặc tạo ảnh gì?
+            </p>
+
+        </div>
+
+        <div class="messages" id="messages"></div>
+
+    </section>
+
+
+    <!-- INPUT -->
+
+    <div class="inputArea">
+
+        <div class="inputBox">
+
+            <textarea
+                id="input"
+                placeholder="Nhập câu hỏi hoặc mô tả ảnh..."
+                onkeydown="keyDown(event)"
+                oninput="resizeBox()"
+            ></textarea>
+
+            <div class="buttons">
+
+                <!-- IMAGE -->
+
+                <button
+                    class="btn generate"
+                    title="Tạo ảnh"
+                    onclick="createImage()">
+                    🖼️
+                </button>
+
+                <!-- SEND -->
+
+                <button
+                    class="btn send"
+                    title="Gửi"
+                    onclick="sendMessage()">
+                    ↑
+                </button>
+
+            </div>
+
+        </div>
+
+        <div class="disclaimer">
+            Phu Quan AI • Image generation demo
+        </div>
+
+    </div>
+
+</main>
+
+
+<script>
+
+/* =========================
+   DATA
+========================= */
+
+let chats =
+    JSON.parse(
+        localStorage.getItem("pq_chats") || "[]"
+    );
+
+let current = {
+    id: Date.now(),
+    title: "New chat",
+    messages: []
+};
+
+
+/* =========================
+   ELEMENTS
+========================= */
+
+const input =
+    document.getElementById("input");
+
+const messages =
+    document.getElementById("messages");
+
+const welcome =
+    document.getElementById("welcome");
+
+const chat =
+    document.getElementById("chat");
+
+
+/* =========================
+   ESCAPE HTML
+========================= */
+
+function escapeHTML(text) {
+
+    return text
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+}
+
+
+/* =========================
+   ADD MESSAGE
+========================= */
+
+function addMessage(role,text) {
+
+    welcome.style.display = "none";
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "message " + role;
+
+    const avatar =
+        role === "user"
+        ? `<div class="avatar userAvatar">U</div>`
+        : `<div class="avatar aiAvatar">PQ</div>`;
+
+    div.innerHTML = `
+        <div class="messageInner">
+
+            ${avatar}
+
+            <div class="content">
+                ${escapeHTML(text)}
+            </div>
+
+        </div>
+    `;
+
+    messages.appendChild(div);
+
+    chat.scrollTop =
+        chat.scrollHeight;
+}
+
+
+/* =========================
+   DEMO CHAT
+========================= */
+
+function sendMessage() {
+
+    const text =
+        input.value.trim();
+
+    if (!text) return;
+
+    addMessage("user",text);
+
+    current.messages.push({
+        role:"user",
+        text:text
+    });
+
+    if (current.title === "New chat") {
+        current.title =
+            text.length > 35
+            ? text.substring(0,35)+"..."
+            : text;
+    }
+
+    input.value = "";
+
+    resizeBox();
+
+    setTimeout(() => {
+
+        let answer =
+            "Mình là Phu Quan AI. Đây là phiên bản HTML chạy trực tiếp trên trình duyệt. Bạn có thể dùng nút 🖼️ để tạo ảnh.";
+
+        const lower =
+            text.toLowerCase();
+
+        if (lower.includes("xin chào") ||
+            lower.includes("hello")) {
+
+            answer =
+                "Xin chào! 👋 Mình là Phu Quan AI.";
+
+        }
+
+        if (lower.includes("html")) {
+
+            answer =
+                "HTML tạo cấu trúc trang web, CSS tạo giao diện và JavaScript tạo chức năng.";
+
+        }
+
+        if (lower.includes("python")) {
+
+            answer =
+                "Bạn có thể gửi code Python cho mình và mình sẽ giúp bạn tìm lỗi hoặc giải thích.";
+
+        }
+
+        if (lower.includes("toán") ||
+            lower.includes("math")) {
+
+            answer =
+                "Hãy gửi bài toán cho mình, mình sẽ giúp bạn giải từng bước.";
+
+        }
+
+        addMessage("ai",answer);
+
+        current.messages.push({
+            role:"ai",
+            text:answer
+        });
+
+        saveChat();
+
+    },500);
+
+}
+
+
+/* =========================
+   CREATE IMAGE
+========================= */
+
+function createImage() {
+
+    const prompt =
+        input.value.trim();
+
+    if (!prompt) {
+
+        alert(
+            "Hãy nhập mô tả ảnh trước."
+        );
+
+        input.focus();
+
+        return;
+    }
+
+    addMessage(
+        "user",
+        "🖼️ Tạo ảnh: " + prompt
+    );
+
+    input.value = "";
+
+    resizeBox();
+
+    const loading =
+        document.createElement("div");
+
+    loading.id = "imageLoading";
+
+    loading.className = "message ai";
+
+    loading.innerHTML = `
+        <div class="messageInner">
+
+            <div class="avatar aiAvatar">
+                PQ
+            </div>
+
+            <div class="content">
+
+                <div>
+                    Đang tạo ảnh...
+                </div>
+
+                <div class="loading">
+
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+                    <span class="dot"></span>
+
+                </div>
+
+            </div>
+
+        </div>
+    `;
+
+    messages.appendChild(loading);
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+
+    /*
+       Pollinations image API
+
+       Prompt được mã hóa để
+       tránh lỗi URL.
+    */
+
+    const encoded =
+        encodeURIComponent(prompt);
+
+    const seed =
+        Math.floor(
+            Math.random()*999999
+        );
+
+    const imageURL =
+        "https://image.pollinations.ai/prompt/"
+        + encoded
+        + "?width=1024"
+        + "&height=1024"
+        + "&nologo=true"
+        + "&seed="
+        + seed;
+
+
+    const image =
+        new Image();
+
+    image.onload = function() {
+
+        const loader =
+            document.getElementById(
+                "imageLoading"
+            );
+
+        if (loader)
+            loader.remove();
+
+        addGeneratedImage(
+            imageURL,
+            prompt
+        );
+
+    };
+
+
+    image.onerror = function() {
+
+        const loader =
+            document.getElementById(
+                "imageLoading"
+            );
+
+        if (loader)
+            loader.remove();
+
+        addMessage(
+            "ai",
+            "❌ Không thể tạo ảnh. Hãy thử lại với prompt khác."
+        );
+
+    };
+
+
+    image.src =
+        imageURL;
+
+}
+
+
+/* =========================
+   SHOW IMAGE
+========================= */
+
+function addGeneratedImage(
+    imageURL,
+    prompt
+) {
+
+    const div =
+        document.createElement("div");
+
+    div.className =
+        "message ai";
+
+    div.innerHTML = `
+        <div class="messageInner">
+
+            <div class="avatar aiAvatar">
+                PQ
+            </div>
+
+            <div class="content">
+
+                <div>
+                    <b>Ảnh đã được tạo:</b>
+                    ${escapeHTML(prompt)}
+                </div>
+
+                <img
+                    src="${imageURL}"
+                    alt="Phu Quan AI generated image"
+                >
+
+                <a
+                    class="download"
+                    href="${imageURL}"
+                    target="_blank"
+                >
+                    ↗ Mở ảnh
+                </a>
+
+            </div>
+
+        </div>
+    `;
+
+    messages.appendChild(div);
+
+    chat.scrollTop =
+        chat.scrollHeight;
+
+}
+
+
+/* =========================
+   NEW CHAT
+========================= */
+
+function newChat() {
+
+    if (current.messages.length > 0)
+        saveChat();
+
+    current = {
+        id:Date.now(),
+        title:"New chat",
+        messages:[]
+    };
+
+    messages.innerHTML = "";
+
+    welcome.style.display =
+        "block";
+
+    input.focus();
+
+}
+
+
+/* =========================
+   SAVE HISTORY
+========================= */
+
+function saveChat() {
+
+    if (!current.messages.length)
+        return;
+
+    const index =
+        chats.findIndex(
+            x => x.id === current.id
+        );
+
+    if (index >= 0)
+        chats[index] = current;
+    else
+        chats.unshift(current);
+
+    localStorage.setItem(
+        "pq_chats",
+        JSON.stringify(chats)
+    );
+
+    renderHistory();
+
+}
+
+
+function renderHistory() {
+
+    const history =
+        document.getElementById(
+            "history"
+        );
+
+    history.innerHTML = "";
+
+    chats.forEach(item => {
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "chatItem";
+
+        div.textContent =
+            item.title;
+
+        div.onclick = () =>
+            loadChat(item.id);
+
+        history.appendChild(div);
+
+    });
+
+}
+
+
+function loadChat(id) {
+
+    const found =
+        chats.find(
+            x => x.id === id
+        );
+
+    if (!found) return;
+
+    current =
+        JSON.parse(
+            JSON.stringify(found)
+        );
+
+    messages.innerHTML = "";
+
+    welcome.style.display =
+        "none";
+
+    current.messages.forEach(msg => {
+
+        addMessage(
+            msg.role === "ai"
+            ? "ai"
+            : "user",
+            msg.text
+        );
+
+    });
+
+}
+
+
+/* =========================
+   UI
+========================= */
+
+function toggleDark() {
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+    localStorage.setItem(
+        "pq_theme",
+        document.body.classList.contains("dark")
+        ? "dark"
+        : "light"
+    );
+
+}
+
+
+function loadTheme() {
+
+    if (
+        localStorage.getItem("pq_theme")
+        === "dark"
+    ) {
+        document.body.classList.add(
+            "dark"
+        );
+    }
+
+}
+
+
+function toggleSidebar() {
+
+    document
+        .getElementById("sidebar")
+        .classList.toggle("open");
+
+}
+
+
+function about() {
+
+    alert(
+        "Phu Quan AI\n\n" +
+        "AI assistant + Image Generator\n\n" +
+        "Created by Phú Quân."
+    );
+
+}
+
+
+function resizeBox() {
+
+    input.style.height = "auto";
+
+    input.style.height =
+        Math.min(
+            input.scrollHeight,
+            180
+        ) + "px";
+
+}
+
+
+function keyDown(event) {
+
+    if (
+        event.key === "Enter" &&
+        !event.shiftKey
+    ) {
+
+        event.preventDefault();
+
+        sendMessage();
+
+    }
+
+}
+
+
+/* START */
+
+loadTheme();
+renderHistory();
+
+</script>
+
+</body>
+</html>
